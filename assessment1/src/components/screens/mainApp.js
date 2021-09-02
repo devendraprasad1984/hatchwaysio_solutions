@@ -6,20 +6,27 @@ import endpoints from "../helper/endpoints";
 import Header from "./header";
 import {getStudents} from "../helper/offline";
 import {mainAppContextDispatcher, MainAppContextProvider} from "../context/mainAppContext";
+import actions from "../common/actions";
+
 
 const MainApp = (props) => {
     const [searchByName, setSearchByName] = useState('')
     const [searchByTag, setSearchByTag] = useState('')
 
     const handleInputSearchByName = e => {
-        setSearchByName(e.target.name)
+        let val = e.target.value
+        let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_NAME, {name: val})
+        // console.log('val',val,'setval', setVal)
+        setSearchByName(setVal.name)
     }
     const handleInputSearchByTag = e => {
-        setSearchByTag(e.target.name)
+        let val = e.target.value
+        let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_TAG, {tag: val})
+        setSearchByTag(setVal.tag)
     }
-
+    const app = {searchByName, searchByTag}
     return <div>
-        <MainAppContextProvider value={{mainAppContextDispatcher}}>
+        <MainAppContextProvider value={{app, mainAppContextDispatcher}}>
             <Header/>
             <AppInput placeholder={'search by name'} onchange={handleInputSearchByName}/>
             <AppInput placeholder={'search by tag'} onchange={handleInputSearchByTag}/>
@@ -28,6 +35,8 @@ const MainApp = (props) => {
                 objectKey={config.objectKeys.student_api_object_key}
                 mode={config.mode_offline}
                 offline_data={getStudents()}
+                searchByName={searchByName}
+                searchByTag={searchByTag}
             />
         </MainAppContextProvider>
     </div>

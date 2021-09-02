@@ -1,11 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {get} from "../helper/api";
 import NoData from "./nodata";
 import Student from "./student";
+import MainAppContext from "../context/mainAppContext";
+import {deepCopy} from "../helper/utils";
+
 
 const Listing = props => {
-    const {url, objectKey, mode, offline_data} = props
+    const {url, objectKey, mode, offline_data, searchByName, searchByTag} = props
     const [thisListData, setThisListData] = useState([])
+    const {app} = useContext(MainAppContext)
 
     const fetchFromURL = () => {
         if (!mode) {
@@ -26,8 +30,15 @@ const Listing = props => {
 
     const displayList = () => {
         if (thisListData.length === 0) return
-        return thisListData.map(row => {
-            return <div>
+        let listFilter = []
+        let dataCopy = deepCopy(thisListData)
+        if (app.searchByName === '' && app.searchByTag === '')
+            listFilter = dataCopy
+        else
+            listFilter = dataCopy.filter(row => (row.firstName + ' ' + row.lastName).toLowerCase().indexOf(app.searchByName.toLowerCase()) !== -1)
+
+        return listFilter.map((row, index) => {
+            return <div key={`student_${index}`}>
                 <Student {...row}/>
                 <hr/>
             </div>

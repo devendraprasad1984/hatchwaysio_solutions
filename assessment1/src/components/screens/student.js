@@ -1,17 +1,23 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {getAverage} from "../helper/utils";
 import AppButton from "../common/button";
 import NoData from "./nodata";
+import MainAppContext from "../context/mainAppContext";
+
 
 const Student = props => {
     const {id, pic, firstName, lastName, city, company, grades, skill, email} = props
     const [displayDetails, setDisplayDetails] = useState(false)
+    const {app, mainAppContextDispatcher} = useContext(MainAppContext)
     // const [clickedStudentDetails, setClickedStudentDetails]=useState({})
     const average = getAverage(grades) + '%'
 
     const handleClickOnStudentDetail = id => {
+        // const searchName=mainAppContextDispatcher(actions.GET_SEARCH_BY_NAME,{id: id})
+        const searchName = app.searchByName || ''
+        const tagName = app.searchByTag || ''
+        console.log('searchName', searchName, 'tagName', tagName)
         setDisplayDetails(!displayDetails)
-
     }
 
     const showDetails = () => {
