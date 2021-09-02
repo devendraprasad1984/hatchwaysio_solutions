@@ -16,7 +16,10 @@ const Listing = props => {
         if (app.searchByName === '' && app.searchByTag === '')
             listFilter = dataCopy
         else
-            listFilter = dataCopy.filter(row => (row.firstName + ' ' + row.lastName).toLowerCase().indexOf(app.searchByName.toLowerCase()) !== -1)
+            listFilter = dataCopy.filter(row =>
+                (row.firstName + ' ' + row.lastName).toLowerCase().indexOf(app.searchByName.toLowerCase()) !== -1
+                || (row.tags || []).indexOf(app.searchByTag.toLowerCase()) !== -1
+            )
 
         return listFilter.map((row, index) => {
             return <div key={`student_${index}`}>

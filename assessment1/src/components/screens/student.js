@@ -8,18 +8,15 @@ import AppInput from "../common/input";
 
 
 const Student = props => {
-    const {id, pic, firstName, lastName, city, company, grades, skill, email} = props
+    const {id, pic, firstName, lastName, city, company, grades, skill, email, tags} = props
     const [displayDetails, setDisplayDetails] = useState(false)
-    const [tags, setTags] = useState([])
-    const {app, mainAppContextDispatcher} = useContext(MainAppContext)
-    // const [clickedStudentDetails, setClickedStudentDetails]=useState({})
+    const {app} = useContext(MainAppContext)
     const average = getAverage(grades) + '%'
+
+    console.log('tags', id, firstName, props.tags, 'state', tags)
 
     const handleClickOnStudentDetail = id => {
         // const searchName=mainAppContextDispatcher(actions.GET_SEARCH_BY_NAME,{id: id})
-        const searchName = app.searchByName || ''
-        const tagName = app.searchByTag || ''
-        console.log('searchName', searchName, 'tagName', tagName)
         setDisplayDetails(!displayDetails)
     }
 
@@ -41,8 +38,9 @@ const Student = props => {
     const handleTagInput = (e) => {
         if (e.keyCode !== 13) return
         let val = e.target.value
-        let updatedTags = [...tags, val]
-        setTags(updatedTags)
+        let utags = tags || []
+        if (utags.indexOf(val) === -1) utags.push(val)
+        app.updateTags(id, utags)
     }
 
     return <div className='flex-row left v-center-flex'>

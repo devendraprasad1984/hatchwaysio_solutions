@@ -1,16 +1,17 @@
 import {useEffect, useState} from "react";
 import {get} from "../helper/api";
+import config from "../helper/config";
 
 
 const useFetchApi = (url) => {
     const [data, setData] = useState([])
     const [error, setError] = useState('')
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const fetchFromURL = () => {
         get(url, res => {
             if (res.error !== undefined) {
-                setError(res.error)
+                setError(res.error || '')
                 return
             }
             setData(res)
@@ -18,6 +19,8 @@ const useFetchApi = (url) => {
         })
     }
     useEffect(() => {
+        if (config.mode_offline)
+            return
         setLoading(true)
         fetchFromURL()
     }, [])

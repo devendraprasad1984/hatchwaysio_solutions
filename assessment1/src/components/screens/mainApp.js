@@ -15,12 +15,15 @@ const MainApp = (props) => {
     const [searchByTag, setSearchByTag] = useState('')
     const [studentData, setStudentData] = useState([])
 
-    const {data, loading} = useFetchApi(endpoints.students)
+    const {data, loading, error} = useFetchApi(endpoints.students)
 
     useEffect(() => {
-        if (data.length === 0) return
-        setStudentData(data[config.objectKeys.student_api_object_key])
-    }, [data, loading])
+        if (error !== '' || config.mode_offline === true) {
+            setStudentData(getStudents()[config.objectKeys.student_api_object_key])
+        } else {
+            setStudentData(data[config.objectKeys.student_api_object_key])
+        }
+    }, [data, loading, error])
 
     const handleInputSearchByName = e => {
         let val = e.target.value
@@ -32,7 +35,14 @@ const MainApp = (props) => {
         // let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_TAG, {tag: val})
         setSearchByTag(val)
     }
-    const app = {searchByName, searchByTag}
+    const updateTags = (id, tags) => {
+        let studata=[...studentData]
+        let filter = studata.filter(x => x.id === id)[0]
+        filter['tags'] = tags
+        // console.log('filter',studentData,id,tags, filter)
+        setStudentData([...studata])
+    }
+    const app = {searchByName, searchByTag, updateTags}
 
     if (loading === true) return <NoData msg={config.wait_msg}/>
     return <div>
