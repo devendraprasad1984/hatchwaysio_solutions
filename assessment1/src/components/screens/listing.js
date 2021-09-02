@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {get} from "../helper/api";
+import React, {useContext} from 'react'
 import NoData from "./nodata";
 import Student from "./student";
 import MainAppContext from "../context/mainAppContext";
@@ -7,31 +6,13 @@ import {deepCopy} from "../helper/utils";
 
 
 const Listing = props => {
-    const {url, objectKey, mode, offline_data, searchByName, searchByTag} = props
-    const [thisListData, setThisListData] = useState([])
+    const {data} = props
     const {app} = useContext(MainAppContext)
 
-    const fetchFromURL = () => {
-        if (!mode) {
-            get(url, data => {
-                // console.log(`data from ${url} = ${data}`)
-                if (data[objectKey] === undefined)
-                    setThisListData(data)
-                else
-                    setThisListData(data[objectKey])
-            })
-        } else {
-            setThisListData(offline_data)
-        }
-    }
-    useEffect(() => {
-        fetchFromURL()
-    }, [])
-
     const displayList = () => {
-        if (thisListData.length === 0) return
+        if (data.length === 0) return
         let listFilter = []
-        let dataCopy = deepCopy(thisListData)
+        let dataCopy = deepCopy(data)
         if (app.searchByName === '' && app.searchByTag === '')
             listFilter = dataCopy
         else
@@ -45,7 +26,7 @@ const Listing = props => {
         })
     }
 
-    if (thisListData.length === 0) return <NoData/>
+    if (data.length === 0) return <NoData/>
     return <div className='height-400 h-relative margin-ud'>
         {displayList()}
     </div>

@@ -41,7 +41,8 @@ const Student = props => {
     const handleTagInput = (e) => {
         if (e.keyCode !== 13) return
         let val = e.target.value
-        setTags([...tags, val])
+        let updatedTags = [...tags, val]
+        setTags(updatedTags)
     }
 
     return <div className='flex-row left v-center-flex'>
