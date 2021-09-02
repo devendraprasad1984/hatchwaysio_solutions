@@ -1,13 +1,27 @@
-import React from "react";
+import React, {useState} from "react";
 import {getAverage} from "../helper/utils";
 import AppButton from "../common/button";
+import NoData from "./nodata";
 
 const Student = props => {
     const {id, pic, firstName, lastName, city, company, grades, skill, email} = props
-    const average = getAverage(grades)
+    const [displayDetails, setDisplayDetails] = useState(false)
+    // const [clickedStudentDetails, setClickedStudentDetails]=useState({})
+    const average = getAverage(grades) + '%'
 
     const handleClickOnStudentDetail = id => {
-        console.log('clicked', id)
+        setDisplayDetails(!displayDetails)
+
+    }
+
+    const showDetails = () => {
+        if (displayDetails === false) return null
+        const nodata = <NoData msg='no grades present'/>
+        if (grades === undefined) return nodata
+        if (grades.length === 0) return nodata
+        return grades.map((gr, index) => {
+            return <div key={`stu-${id}-grade-detail-${index}`}>{`Test ${index + 1}: ${parseInt(gr)}%`}</div>
+        })
     }
 
     return <div className='flex-row left v-center-flex'>
@@ -21,9 +35,10 @@ const Student = props => {
                 <div>Skill: {skill}</div>
                 <div>Average: {average}</div>
             </div>
+            <div className='txt-color-offwhite pad-lr margin-ud'>{showDetails()}</div>
         </div>
         <div className='margin-r flex1'>
-            <AppButton label='+' onclick={() => handleClickOnStudentDetail(id)}/>
+            <AppButton label={displayDetails ? '-' : '+'} onclick={() => handleClickOnStudentDetail(id)}/>
         </div>
     </div>
 }

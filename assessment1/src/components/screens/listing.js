@@ -36,7 +36,6 @@ const Listing = props => {
 
     if (thisListData.length === 0) return <NoData/>
     return <div className='height-400 h-relative margin-ud'>
-        {/*<h3>{objectKey === '' || objectKey === undefined ? '' : `Listing....${objectKey.toUpperCase()}`}</h3>*/}
         {displayList()}
     </div>
 }

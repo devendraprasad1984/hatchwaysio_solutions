@@ -9,7 +9,7 @@ const AppButton = props => {
             style={style}
             className={classname}
         >
-            <span className='size14 bl'>{label}</span>
+            <span className='bl'>{label}</span>
         </button>
     </div>
 }
