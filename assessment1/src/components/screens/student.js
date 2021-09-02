@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import {getAverage} from "../helper/utils";
+import {getAverage, padBy10} from "../helper/utils";
 import AppButton from "../common/button";
 import NoData from "./nodata";
 import MainAppContext from "../context/mainAppContext";
@@ -26,14 +26,14 @@ const Student = props => {
         if (grades === undefined) return nodata
         if (grades.length === 0) return nodata
         return grades.map((gr, index) => {
-            return <div key={`stu-${id}-grade-detail-${index}`}>{`Test ${index + 1}: ${parseInt(gr)}%`}</div>
+            return <div key={`stu-${id}-grade-detail-${index}`}>{`Test ${index + 1}: ${padBy10(gr)}%`}</div>
         })
     }
 
     return <div className='flex-row left v-center-flex'>
         <div className='flex1'><img className='img-avatar' src={pic}/></div>
         <div className='size14 wid-80 pad-lr'>
-            <h2>{`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}</h2>
+            <h1>{`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}</h1>
             <div className='txt-color-offwhite pad-lr'>
                 <div>Email: {email}</div>
                 <div>Company: {company}</div>

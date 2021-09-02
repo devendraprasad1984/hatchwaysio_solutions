@@ -15,14 +15,14 @@ const MainApp = (props) => {
 
     const handleInputSearchByName = e => {
         let val = e.target.value
-        let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_NAME, {name: val})
+        // let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_NAME, {name: val})
         // console.log('val',val,'setval', setVal)
-        setSearchByName(setVal.name)
+        setSearchByName(val)
     }
     const handleInputSearchByTag = e => {
         let val = e.target.value
-        let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_TAG, {tag: val})
-        setSearchByTag(setVal.tag)
+        // let setVal = mainAppContextDispatcher(actions.SET_SEARCH_BY_TAG, {tag: val})
+        setSearchByTag(val)
     }
     const app = {searchByName, searchByTag}
     return <div>

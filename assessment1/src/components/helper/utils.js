@@ -5,3 +5,4 @@ export const getAverage = data => {
     if (len === 0) return 0
     return data.reduce((a, b) => (parseInt(a) + parseInt(b)), 0) / len
 }
+export const padBy10 = val => val.padStart(10, '-')
