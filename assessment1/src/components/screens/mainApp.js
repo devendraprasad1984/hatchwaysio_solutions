@@ -5,6 +5,7 @@ import Listing from "./listing";
 import endpoints from "../helper/endpoints";
 import Header from "./header";
 import {getStudents} from "../helper/offline";
+import {mainAppContextDispatcher, MainAppContextProvider} from "../context/mainAppContext";
 
 const MainApp = (props) => {
     const [searchByName, setSearchByName] = useState('')
@@ -18,15 +19,17 @@ const MainApp = (props) => {
     }
 
     return <div>
-        <Header/>
-        <AppInput placeholder={'search by name'} onchange={handleInputSearchByName}/>
-        <AppInput placeholder={'search by tag'} onchange={handleInputSearchByTag}/>
-        <Listing
-            url={endpoints.students}
-            objectKey={config.objectKeys.student_api_object_key}
-            mode={config.mode_offline}
-            offline_data={getStudents()}
-        />
+        <MainAppContextProvider value={{mainAppContextDispatcher}}>
+            <Header/>
+            <AppInput placeholder={'search by name'} onchange={handleInputSearchByName}/>
+            <AppInput placeholder={'search by tag'} onchange={handleInputSearchByTag}/>
+            <Listing
+                url={endpoints.students}
+                objectKey={config.objectKeys.student_api_object_key}
+                mode={config.mode_offline}
+                offline_data={getStudents()}
+            />
+        </MainAppContextProvider>
     </div>
 }
 export default MainApp
