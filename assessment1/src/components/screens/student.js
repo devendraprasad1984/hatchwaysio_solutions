@@ -3,11 +3,14 @@ import {getAverage, padBy10} from "../helper/utils";
 import AppButton from "../common/button";
 import NoData from "./nodata";
 import MainAppContext from "../context/mainAppContext";
+import Tags from "../common/tags";
+import AppInput from "../common/input";
 
 
 const Student = props => {
     const {id, pic, firstName, lastName, city, company, grades, skill, email} = props
     const [displayDetails, setDisplayDetails] = useState(false)
+    const [tags, setTags] = useState([])
     const {app, mainAppContextDispatcher} = useContext(MainAppContext)
     // const [clickedStudentDetails, setClickedStudentDetails]=useState({})
     const average = getAverage(grades) + '%'
@@ -25,9 +28,20 @@ const Student = props => {
         const nodata = <NoData msg='no grades present'/>
         if (grades === undefined) return nodata
         if (grades.length === 0) return nodata
-        return grades.map((gr, index) => {
+        let gradesUI = grades.map((gr, index) => {
             return <div key={`stu-${id}-grade-detail-${index}`}>{`Test ${index + 1}: ${padBy10(gr)}%`}</div>
         })
+        let tagUI = <div>
+            {gradesUI}
+            <AppInput placeholder={'add tag'} onkeydown={handleTagInput}/>
+        </div>
+        return tagUI
+    }
+
+    const handleTagInput = (e) => {
+        if (e.keyCode !== 13) return
+        let val = e.target.value
+        setTags([...tags, val])
     }
 
     return <div className='flex-row left v-center-flex'>
@@ -41,6 +55,7 @@ const Student = props => {
                 <div>Skill: {skill}</div>
                 <div>Average: {average}</div>
             </div>
+            <div><Tags values={tags}/></div>
             <div className='txt-color-offwhite pad-lr margin-ud'>{showDetails()}</div>
         </div>
         <div className='margin-r flex1'>
