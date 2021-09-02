@@ -4,6 +4,7 @@ import config from "../helper/config";
 import Listing from "./listing";
 import endpoints from "../helper/endpoints";
 import Header from "./header";
+import {getStudents} from "../helper/offline";
 
 const MainApp = (props) => {
     const [searchByName, setSearchByName] = useState('')
@@ -23,6 +24,8 @@ const MainApp = (props) => {
         <Listing
             url={endpoints.students}
             objectKey={config.objectKeys.student_api_object_key}
+            mode={config.mode_offline}
+            offline_data={getStudents()}
         />
     </div>
 }

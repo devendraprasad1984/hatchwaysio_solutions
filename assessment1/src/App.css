@@ -4,6 +4,8 @@
     --offwhite-color: #ffffff;
     --card-border-color: #efecec;
     --dark-gray-color: #8a8686;
+    --dark-red-color: #e1796c;
+    --dark-green-color: #7eda43;
     --pad10: 10px;
     --pad20: 20px;
     --wid80: 80px;
@@ -204,4 +206,10 @@ button{
 
 .txt-color-offwhite {
     color: var(--dark-gray-color) !important;
+}
+.txt-color-red{
+    color: var(--dark-red-color) !important;
+}
+.txt-color-green{
+    color: var(--dark-green-color) !important;
 }
