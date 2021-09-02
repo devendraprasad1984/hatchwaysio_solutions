@@ -13,7 +13,7 @@ const Student = props => {
     const {app} = useContext(MainAppContext)
     const average = getAverage(grades) + '%'
 
-    console.log('tags', id, firstName, props.tags, 'state', tags)
+    // console.log('tags', id, firstName, props.tags, 'state', tags)
 
     const handleClickOnStudentDetail = id => {
         // const searchName=mainAppContextDispatcher(actions.GET_SEARCH_BY_NAME,{id: id})
